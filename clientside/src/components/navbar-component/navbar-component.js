@@ -1,10 +1,12 @@
 import React from 'react';
-import './navbar-component.css';
 
-function navbarComponent() {
+
+const NavbarComponent = () => {
     return (
-        <h1>Hello world</h1>
+        <div>
+            <h1 className="text-info">hello world</h1>
+        </div>
     )
 }
 
-export default navbarComponent;
+export default NavbarComponent
