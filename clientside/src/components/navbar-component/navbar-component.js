@@ -1,10 +1,11 @@
 import React from 'react';
+import './navbar-component.css';
 
 
 const NavbarComponent = () => {
     return (
-        <nav className="navbar navbar-expand-sm navbar-light bg-light">
-            <a className="navbar-brand" href="#">Navbar</a>
+        <nav className="navbar navbar-expand-sm navbar-light bg-white">
+            <a className="navbar-brand" href="#">Invoice Sys</a>
             <button className="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
                 aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
@@ -25,10 +26,6 @@ const NavbarComponent = () => {
                         </div>
                     </li>
                 </ul>
-                <form className="form-inline my-2 my-lg-0">
-                    <input className="form-control mr-sm-2" type="text" placeholder="Search" />
-                    <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
             </div>
         </nav>
     )
