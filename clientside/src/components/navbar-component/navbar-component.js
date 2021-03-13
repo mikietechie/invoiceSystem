@@ -1,5 +1,6 @@
 import React from 'react';
 import './navbar-component.css';
+import ButtonComponent from '../element-components/button'
 
 
 const NavbarComponent = () => {
@@ -19,10 +20,10 @@ const NavbarComponent = () => {
                         <a className="nav-link" href="#">Link</a>
                     </li>
                     <li className="nav-item dropdown">
-                        <a className="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                        <a className="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Customers</a>
                         <div className="dropdown-menu" aria-labelledby="dropdownId">
-                            <a className="dropdown-item" href="#">Action 1</a>
-                            <a className="dropdown-item" href="#">Action 2</a>
+                            <ButtonComponent clickHandler={()=>alert("Loading Add Customer Logic")} text="Add Customer" classes="dropdown-item"/>
+                            <ButtonComponent clickHandler={()=>alert("Loading Customers view")} text="All Customers" classes="dropdown-item"/>
                         </div>
                     </li>
                 </ul>
