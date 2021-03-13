@@ -4,6 +4,7 @@
 /clientside/node_modules
 serverside/app/__pycache__
 serverside/invoiceSystem/__pycache__
+serverside/app/migrations/__pycache__
 /.pnp
 .pnp.js
 
