@@ -1,6 +1,6 @@
 import React from 'react';
 import './navbar-component.css';
-import ButtonComponent from '../element-components/button'
+import ButtonComponent from '../element-components/button-component'
 
 
 const NavbarComponent = () => {
