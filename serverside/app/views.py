@@ -20,10 +20,12 @@ class CustomerAPIView(APIView):
         super(CustomerAPIView, self).__init__(*args)
     
     def get(self, request):
-        return Response((CustomerSerializer(Customer.objects.all())).data)
+        customers = Customer.objects.all()
+        serializedCustomers = CustomerSerializer(customers, many=True)
+        return Response(serializedCustomers.data)
     
     def post(self, request):
-        serializedCustomer = Customer(data=request.data)
+        serializedCustomer = CustomerSerializer(data=request.data)
         if serializedCustomer.is_valid():
             serializedCustomer.save()
             return Response(serializedCustomer.data,status=status.HTTP_201_CREATED)
@@ -31,9 +33,6 @@ class CustomerAPIView(APIView):
 
 
 class CustomerAPIViewDetail(APIView):
-    def __init__(self, *args):
-        super(CustomerAPIView, self).__init__(*args)
-    
     def getCustomer(self,_id):
         try:
             customer = Customer.objects.get(pk=_id)
@@ -42,8 +41,8 @@ class CustomerAPIViewDetail(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     def get(self,request,_id):
-        Customer = self.getCustomer(_id)
-        serializedCustomer = Customer(Customer)
+        customer = self.getCustomer(_id)
+        serializedCustomer = CustomerSerializer(customer)
         return Response(serializedCustomer.data)
 
     def put(self,request,_id):
@@ -55,7 +54,7 @@ class CustomerAPIViewDetail(APIView):
         return Response(serializedForUpdateCustomer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
     def delete(self,request,_id):
-        user = self.get_item(_id)
+        user = self.getCustomer(_id)
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
             
