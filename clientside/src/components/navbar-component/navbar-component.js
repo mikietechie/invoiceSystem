@@ -3,7 +3,7 @@ import './navbar-component.css';
 import ButtonComponent from '../element-components/button-component'
 
 
-const NavbarComponent = () => {
+const NavbarComponent = (props) => {
     return (
         <nav className="navbar navbar-expand-sm navbar-light bg-white">
             <a className="navbar-brand" href="#">Invoice Sys</a>
@@ -13,18 +13,17 @@ const NavbarComponent = () => {
             </button>
             <div className="collapse navbar-collapse" id="collapsibleNavId">
                 <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li className="nav-item active">
-                        <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
+                    <li className="nav-item">
+                        <ButtonComponent clickHandler={props.loadSalesView()} text="Sales" classes="dropdown-item"/>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Link</a>
+                        <ButtonComponent clickHandler={props.loadCustomersView()} text="Customers" classes="dropdown-item"/>
                     </li>
-                    <li className="nav-item dropdown">
-                        <a className="nav-link dropdown-toggle" href="#" id="dropdownId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Customers</a>
-                        <div className="dropdown-menu" aria-labelledby="dropdownId">
-                            <ButtonComponent clickHandler={()=>alert("Loading Add Customer Logic")} text="Add Customer" classes="dropdown-item"/>
-                            <ButtonComponent clickHandler={()=>alert("Loading Customers view")} text="All Customers" classes="dropdown-item"/>
-                        </div>
+                    <li className="nav-item">
+                        <ButtonComponent clickHandler={props.loadItemsView()} text="Items" classes="dropdown-item"/>
+                    </li>
+                    <li className="nav-item">
+                        <ButtonComponent clickHandler={props.loadInvoicesView()} text="Invoices" classes="dropdown-item"/>
                     </li>
                 </ul>
             </div>
