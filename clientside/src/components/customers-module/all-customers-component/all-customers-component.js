@@ -35,6 +35,8 @@ class AllCustomersComponent extends React.Component {
                 </table>
                 
                 <AddCustomerComponent handleChange={()=>this.props.handleChange()}/>
+                
+
             </div>
         );
     }

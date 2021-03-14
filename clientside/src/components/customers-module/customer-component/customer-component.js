@@ -1,6 +1,7 @@
 import React from "react";
 import './customer-component.css';
 import ButtonComponent from '../../element-components/button-component';
+import EditCustomerComponent from '../add-customer-component/edit-customer-component';
 import Constants from '../../../services/constants';
 
 
@@ -25,19 +26,29 @@ class CustomerComponent extends React.Component {
 
     render() {
         return(
-            <tr>
-                <th scope="row" onClick={()=>this.props.handleClick()}>{this.props.customer.id}</th>
-                <td>{this.props.customer.name}</td>
-                <td>{this.props.customer.email}</td>
-                <td>{this.props.customer.phone}</td>
-                <td>{this.props.customer.address}</td>
-                <td>
-                    <div className="btn-group" role="group" aria-label="">
-                        <ButtonComponent clickHandler={()=>alert("Ready to edit")}  classes="btn btn-success border-info rounded-circle mr-1" text={<i className="fa fa-edit"></i>}/>
-                        <ButtonComponent clickHandler={()=>this.deleteCustomer()}  classes="btn btn-danger border-info rounded-circle" text={<i className="fa fa-trash"></i>}/>
+            <React.Fragment>
+                <tr>
+                    <th scope="row" onClick={()=>this.props.handleClick()}>{this.props.customer.id}</th>
+                    <td>{this.props.customer.name}</td>
+                    <td>{this.props.customer.email}</td>
+                    <td>{this.props.customer.phone}</td>
+                    <td>{this.props.customer.address}</td>
+                    <td>
+                        <div className="btn-group" role="group" aria-label="">
+                            <button className="btn btn-success border-info rounded-circle mr-1"  data-toggle="modal" data-target="#modelId"><i className="fa fa-edit"></i></button>
+                            <ButtonComponent clickHandler={()=>this.deleteCustomer()}  classes="btn btn-danger border-info rounded-circle" text={<i className="fa fa-trash"></i>}/>
+                        </div>
+                    </td>
+                </tr>
+                
+                <div className="modal fade" id="modelId" tabIndex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                    <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                            <EditCustomerComponent handleChange={()=>this.props.handleChange()} customer={this.props.customer}/>
+                        </div>
                     </div>
-                </td>
-            </tr>
+                </div>
+            </React.Fragment>
         )
     }
 }
