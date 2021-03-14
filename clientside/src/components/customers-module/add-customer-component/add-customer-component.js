@@ -7,17 +7,22 @@ class AddCustomerComponent extends React.Component {
     constructor(props) {
         super(props);
         this.props = props;
-        this.initialiseState();
-        this.handleFormSubmit = this.handleFormSubmit.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
-    }
-    initialiseState= () => {
         this.state = {
             name: "",
             phone: "",
             email: "",
             address: "",
         };
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+    initialiseState= () => {
+        this.setState({
+            name: "",
+            phone: "",
+            email: "",
+            address: "",
+        })
     }
     handleInputChange = (event) => {
         const {name, value} = event.target
@@ -70,13 +75,15 @@ class AddCustomerComponent extends React.Component {
                                 <input type="text" name="phone" className="form-control" placeholder="+263771588144" value={this.state.phone} onChange={this.handleInputChange} />
                             </div>
                         </div>
-                        <fieldset>
-                            <legend>Address</legend>
-                            <textarea name="address" placeholder="Stand # 11 Lorraine Drive, Bluffhill, Harare" value={this.state.address} onChange={this.handleInputChange}></textarea>
-                        </fieldset>
                         <div className="form-group row">
-                            <div className="col-12">
-                                <button type="reset" className="btn btn-warning mx-auto"><i className="fa fa-minus" aria-hidden="true"></i> Reset</button>
+                            <label className="col-sm-6 col-form-label">Address</label>
+                            <div className="col-sm-6">
+                                <textarea name="address" className="form-control" placeholder="Stand # 11 Lorraine Drive, Bluffhill, Harare" value={this.state.address} onChange={this.handleInputChange}></textarea>
+                            </div>
+                        </div>
+                        <div className="form-group row">
+                            <div className="col-sm-12 d-inline-flex justify-content-around">
+                                <button type="reset" className="btn btn-warning mx-auto" onClick={()=>this.initialiseState()}><i className="fa fa-minus" aria-hidden="true"></i> Reset</button>
                                 <button type="submit" className="btn btn-primary mx-auto"><i className="fa fa-send" aria-hidden="true"></i> Submit</button>
                             </div>
                         </div>

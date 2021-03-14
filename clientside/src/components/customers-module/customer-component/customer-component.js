@@ -9,15 +9,19 @@ class CustomerComponent extends React.Component {
         super(props);
         this.props = props;
     }
-    /*
+    
     deleteCustomer = () => {
-        confirmDelete = confirm(`Are you sure you want to delete ${this.props.customer.name}`);
-        if (confirmDelete === true) {
-			fetch(`${Constants.serverSideURL}customers/${this.props.customer.id}`, {method: "DELETE"})
-			.then(response => response.json())
-			.then(result => this.props.handleChange())
-		}
-    }*/
+        /*
+        //  Proper procedure for a delete operation but it does not seem to work in react....
+        if (confirm(`Are you sure you want to delete ${this.props.customer.name} permanently`)) {
+            fetch(`${Constants.serverSideURL}customers/${this.props.customer.id}`, {method: "DELETE"})
+            .then(response => response.json())
+            .then(result => this.props.handleChange())
+        }
+        */
+        fetch(`${Constants.serverSideURL}customers/${this.props.customer.id}`, {method: "DELETE"})
+        .then(() => {alert(`${this.props.customer.name} was deleted successfully!`);this.props.handleChange()})
+    }
 
     render() {
         return(
@@ -29,8 +33,8 @@ class CustomerComponent extends React.Component {
                 <td>{this.props.customer.address}</td>
                 <td>
                     <div className="btn-group" role="group" aria-label="">
-                        <ButtonComponent clickHandler={()=>alert("Ready to edit")}  className="btn btn-success border-info rounded-circle" text={<i className="fa fa-edit"></i>}/>
-                        <ButtonComponent clickHandler={()=>alert("Ready to delete")}  className="btn btn-danger border-info rounded-circle" text={<i className="fa fa-trash"></i>}/>
+                        <ButtonComponent clickHandler={()=>alert("Ready to edit")}  classes="btn btn-success border-info rounded-circle mr-1" text={<i className="fa fa-edit"></i>}/>
+                        <ButtonComponent clickHandler={()=>this.deleteCustomer()}  classes="btn btn-danger border-info rounded-circle" text={<i className="fa fa-trash"></i>}/>
                     </div>
                 </td>
             </tr>

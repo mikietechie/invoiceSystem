@@ -6,14 +6,15 @@ import AddCustomerComponent from '../add-customer-component/add-customer-compone
 class AllCustomersComponent extends React.Component {
     constructor(props) {
         super(props);
+        this.props = props;
     }
 
     render() {
         let tbodyContent;
-        if (this.props.customers.length == 0) {
+        if (this.props.customers.length === 0) {
             tbodyContent = <tr colSpan="5" className="py-2 text-center text-info"></tr>
         } else {
-            tbodyContent = this.props.customers.map(customer => (<CustomerComponent customer={customer} handleClick={()=>alert(customer.name)} key={customer.id}/>));   
+            tbodyContent = this.props.customers.map(customer => (<CustomerComponent customer={customer} handleClick={()=>alert(customer.name)} handleChange={()=>this.props.handleChange()} key={customer.id}/>));   
         }
         return (
             <div>
@@ -25,7 +26,7 @@ class AllCustomersComponent extends React.Component {
                             <th><i className="fa fa-phone" aria-hidden="true"></i> Phone</th>
                             <th><i className="fa fa-envelope-o" aria-hidden="true"></i> Email</th>
                             <th><i className="fa fa-map-o" aria-hidden="true"></i> Address</th>
-                            <th><i className="fa fa-dashboard" aria-hidden="true"></i> Actions</th>
+                            <th><i className="fa fa-crop" aria-hidden="true"></i> Actions</th>
                         </tr>
                         </thead>
                         <tbody>

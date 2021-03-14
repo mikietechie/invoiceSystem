@@ -6,7 +6,7 @@ import ButtonComponent from '../element-components/button-component'
 const NavbarComponent = (props) => {
     return (
         <nav className="navbar navbar-expand-sm navbar-light bg-white">
-            <a className="navbar-brand" href="#">Invoice Sys</a>
+            <b className="navbar-brand" href="#">Invoice Sys</b>
             <button className="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId"
                 aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
