@@ -54,7 +54,53 @@ class CustomerAPIViewDetail(APIView):
         return Response(serializedForUpdateCustomer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
     def delete(self,request,_id):
-        user = self.getCustomer(_id)
-        user.delete()
+        customer = self.getCustomer(_id)
+        customer.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ItemAPIView(APIView):
+    def __init__(self, *args):
+        super(ItemAPIView, self).__init__(*args)
+    
+    def get(self, request):
+        items = Item.objects.all()
+        serializedItems = ItemSerializer(items, many=True)
+        return Response(serializedItems.data)
+    
+    def post(self, request):
+        serializedItem = ItemSerializer(data=request.data)
+        if serializedItem.is_valid():
+            serializedItem.save()
+            return Response(serializedItem.data,status=status.HTTP_201_CREATED)
+        return Response(serializedItem.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+class ItemAPIViewDetail(APIView):
+    def getItem(self,_id):
+        try:
+            item = Item.objects.get(pk=_id)
+            return item
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def get(self,request,_id):
+        item = self.getItem(_id)
+        serializedItem = ItemSerializer(item)
+        return Response(serializedItem.data)
+
+    def put(self,request,_id):
+        item = self.getItem(_id)
+        serializedForUpdateItem = ItemSerializer(item, data=request.data)
+        if serializedForUpdateItem.is_valid():
+            serializedForUpdateItem.save()
+            return Response(serializedForUpdateItem.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serializedForUpdateItem.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+    def delete(self,request,_id):
+        item = self.getItem(_id)
+        item.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
             
