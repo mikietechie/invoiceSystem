@@ -1,0 +1,9 @@
+.tr {
+    background: rgba(255,255,255,1);
+}
+
+.tr:hover {
+    background: rgba(235,235,235,0.9);
+    transition-property: background;
+    transition-duration: 0.3s;
+}

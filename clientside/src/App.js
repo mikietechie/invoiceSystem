@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import NavbarComponent from './components/navbar-component/navbar-component';
 import AllCustomersComponent from './components/customers-module/all-customers-component/all-customers-component';
+import AllItemsComponent from './components/items-module/all-items-component/all-items-component';
 import Constants from './services/constants';
 
 
@@ -23,8 +24,8 @@ class App extends React.Component {
 
     componentDidMount() {
         this.fetchCustomers();
+		this.fetchItems();
     }
-	
 
     fetchCustomers = () => {
         fetch(`${Constants.serverSideURL}customers/`)
@@ -36,6 +37,16 @@ class App extends React.Component {
         })
     }
 
+    fetchItems = () => {
+        fetch(`${Constants.serverSideURL}items/`)
+        .then(response => response.json())
+        .then(items => {
+            this.setState(
+                {items: items}
+            )
+        })
+    }
+
 	render() {
 		const getView = () => {
 			if (this.state.view === 'invoices') {
@@ -43,7 +54,7 @@ class App extends React.Component {
 			} else if (this.state.view === 'customers'){
 				return <AllCustomersComponent customers={this.state.customers} handleChange={()=>this.fetchCustomers()}/>
 			} else if (this.state.view === 'items'){
-				return <h1>Items</h1>
+				return <AllItemsComponent items={this.state.items} handleChange={()=>this.fetchItems()}/>
 			}else{
 				return <h1>sales</h1>
 			}
