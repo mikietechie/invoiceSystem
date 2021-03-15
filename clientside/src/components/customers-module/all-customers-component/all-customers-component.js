@@ -9,7 +9,7 @@ class AllCustomersComponent extends React.Component {
         super(props);
         this.props = props;
         this.state = {
-            customer: {}
+            customer: this.props.customers[0]
         }
     }
 

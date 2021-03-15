@@ -8,15 +8,30 @@ class EditCustomerComponent extends React.Component {
         super(props);
         this.props = props;
         this.state = {
-            name: this.props.customer.name,
-            phone: this.props.customer.phone,
-            email: this.props.customer.email,
-            address: this.props.customer.address,
+            name: '',
+            phone: '',
+            email: '',
+            address: '',
         };
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
+    componentDidMount() {
+        this.initialiseState()
+    }
     initialiseState = () => {
+        fetch(`${Constants.serverSideURL}customers/${this.props.customer.id}/`)
+        .then(response => response.json())
+        .then(customer => {
+            this.setState({
+                name: customer.name,
+                phone: customer.phone,
+                email: customer.email,
+                address: customer.address,
+            })
+        })
+    }
+    initialiseForm = () => {
         this.setState({
             name: "",
             phone: "",
@@ -45,7 +60,7 @@ class EditCustomerComponent extends React.Component {
         .then(customer => {
             alert(`Successfully updated ${customer.name}`);
             this.props.handleChange();
-            this.initialiseState();
+            this.initialiseForm();
         })
         .catch(fault => console.log(fault))
         return false;
@@ -55,7 +70,7 @@ class EditCustomerComponent extends React.Component {
         return(
             <React.Fragment>
                  <div className="container">
-                    <form onSubmit={this.handleFormSubmit}>
+                    <form onSubmit={this.handleFormSubmit} id="updateCustomerForm">
                         <legend>Update {this.props.customer.name}</legend>
                         <div className="form-group row">
                             <label className="col-sm-6 col-form-label">Name</label>
@@ -83,14 +98,13 @@ class EditCustomerComponent extends React.Component {
                         </div>
                         <div className="form-group row">
                             <div className="col-sm-12 d-inline-flex justify-content-around">
-                                <button type="reset" className="btn btn-warning mx-auto" onClick={()=>this.initialiseState()}><i className="fa fa-minus" aria-hidden="true"></i> Reset</button>
+                                <button type="reset" className="btn btn-warning mx-auto" onClick={()=>this.initialiseForm()}><i className="fa fa-minus" aria-hidden="true"></i> Reset</button>
                                 <button type="submit" className="btn btn-primary mx-auto"><i className="fa fa-send" aria-hidden="true"></i> Submit</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </React.Fragment>
-
         )
     }
 }
