@@ -22,9 +22,15 @@ class AllItemsComponent extends React.Component {
     render() {
         let tbodyContent;
         if (this.props.items.length === 0) {
-            tbodyContent = <tr colSpan="5" className="py-2 text-center text-info">It seems like there are no items yet <button className="btn btn-link" data-toggle="modal" data-target="#addItemModal">
-            click here
-        </button> to add!!!</tr>
+            tbodyContent = <tr className="py-2 text-center text-info">
+                    <th colSpan="6">
+                        <div>It seems like there are no items yet 
+                            <button className="btn btn-link" data-toggle="modal" data-target="#addItemModal">
+                                click here
+                            </button> to add!!!
+                        </div>
+                    </th>
+                </tr>
         } else {
             tbodyContent = this.props.items.map(
                 item => (<ItemComponent item={item} handleSelectForUpdate={()=>this.changeSelectedItem(item)} handleChange={()=>this.props.handleChange()} key={item.id}/>)
@@ -37,11 +43,11 @@ class AllItemsComponent extends React.Component {
                     <table className="table table-striped table-inverse table-responsive">
                         <thead className="thead-inverse">
                             <tr>
-                                <th scope="row"><i class="fa fa-asterisk" aria-hidden="true"></i> ID</th>
+                                <th scope="row"><i className="fa fa-asterisk" aria-hidden="true"></i> ID</th>
                                 <th><i className="fa fa-tag" aria-hidden="true"></i> Name</th>
-                                <th><i class="fa fa-usd" aria-hidden="true"></i> Price</th>
-                                <th><i class="fa fa-spoon" aria-hidden="true"></i> Unit</th>
-                                <th><i class="fa fa-list" aria-hidden="true"></i> Description</th>
+                                <th><i className="fa fa-usd" aria-hidden="true"></i> Price</th>
+                                <th><i className="fa fa-spoon" aria-hidden="true"></i> Unit</th>
+                                <th><i className="fa fa-list" aria-hidden="true"></i> Description</th>
                                 <th>
                                     <span className="hidden-sm-down"><i className="fa fa-crop" aria-hidden="true"></i> actions</span>
                                     <button className="btn btn-outline-primary border-info rounded-circle ml-1" data-toggle="modal" data-target="#addItemModal">

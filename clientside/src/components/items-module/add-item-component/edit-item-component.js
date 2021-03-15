@@ -1,21 +1,21 @@
 import React from "react";
-import './add-customer-component.css';
+import './add-item-component.css';
 import Constants from '../../../services/constants';
 
 
-class EditCustomerComponent extends React.Component {
+class EditItemComponent extends React.Component {
     constructor(props) {
         super(props);
         this.props = props;
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
     
-    //  Having problems with this approach to selecting and updating customers. The following is an ugly but effective work around ...
+    //  Having problems with this approach to selecting and updating items. The following is an ugly but effective work around ...
     initialiseForm = () => {
-        document.querySelector('#editCustomerName').value = this.props.customer.name;
-        document.querySelector('#editCustomerEmail').value = this.props.customer.email;
-        document.querySelector('#editCustomerPhone').value = this.props.customer.phone;
-        document.querySelector('#editCustomerAddress').value = this.props.customer.address;
+        document.querySelector('#editItemName').value = this.props.item.name;
+        document.querySelector('#editItemPrice').value = this.props.item.price;
+        document.querySelector('#editItemUnit').value = this.props.item.unit;
+        document.querySelector('#editItemDescription').value = this.props.item.description;
         
     }
 
@@ -26,17 +26,17 @@ class EditCustomerComponent extends React.Component {
     handleFormSubmit = (e) => {
         e.preventDefault();
         const formdData = new FormData()
-        formdData.append("name", document.querySelector('#editCustomerName').value);
-        formdData.append("email", document.querySelector('#editCustomerEmail').value);
-        formdData.append("phone", document.querySelector('#editCustomerPhone').value);
-        formdData.append("address", document.querySelector('#editCustomerAddress').value);
-        fetch(`${Constants.serverSideURL}customers/${this.props.customer.id}/`, {
+        formdData.append("name", document.querySelector('#editItemName').value);
+        formdData.append("price", document.querySelector('#editItemPrice').value);
+        formdData.append("unit", document.querySelector('#editItemUnit').value);
+        formdData.append("description", document.querySelector('#editItemDescription').value);
+        fetch(`${Constants.serverSideURL}items/${this.props.item.id}/`, {
             method: "PUT",
             body: formdData
         })
         .then(response => response.json())
-        .then(customer => {
-            alert(`Successfully updated ${customer.name}`);
+        .then(item => {
+            alert(`Successfully updated ${item.name}`);
             this.props.handleChange();
         })
         .catch(() => alert("Failed to make changes"))
@@ -47,30 +47,30 @@ class EditCustomerComponent extends React.Component {
         return(
             <React.Fragment>
                  <div className="container-fluid">
-                    <form onSubmit={this.handleFormSubmit} id="editCustomerForm" name="editCustomerForm">
-                        <legend>Update {this.props.customer.name}</legend>
+                    <form onSubmit={this.handleFormSubmit} id="editItemForm" name="editItemForm">
+                        <legend>Update {this.props.item.name}</legend>
                         <div className="form-group row">
                             <label className="col-sm-6 col-form-label">Name</label>
                             <div className="col-sm-6">
-                                <input type="text" name="name" id="editCustomerName" className="form-control" placeholder="Mike Micheals"/>
+                                <input type="text" name="name" id="editItemName" className="form-control" placeholder="Caswell meats beef"/>
                             </div>
                         </div>
                         <div className="form-group row">
                             <label className="col-sm-6 col-form-label">Email</label>
                             <div className="col-sm-6">
-                                <input type="text" name="email" id="editCustomerEmail" className="form-control" placeholder="mm@mail.com"/>
+                                <input type="text" name="number" id="editItemPrice" className="form-control" placeholder="3.99"/>
                             </div>
                         </div>
                         <div className="form-group row">
                             <label className="col-sm-6 col-form-label">Phone</label>
                             <div className="col-sm-6">
-                                <input type="text" name="phone" id="editCustomerPhone" className="form-control" placeholder="+263771588144"/>
+                                <input type="text" name="phone" id="editItemUnit" className="form-control" placeholder="Kg"/>
                             </div>
                         </div>
                         <div className="form-group row">
                             <label className="col-sm-6 col-form-label">Address</label>
                             <div className="col-sm-6">
-                                <textarea name="address" id="editCustomerAddress" className="form-control" placeholder="Stand # 11 Lorraine Drive, Bluffhill, Harare"></textarea>
+                                <textarea name="address" id="editItemDescription" className="form-control" placeholder="Premium quality beef from dande"></textarea>
                             </div>
                         </div>
                         <div className="form-group row">
@@ -86,4 +86,4 @@ class EditCustomerComponent extends React.Component {
     }
 }
 
-export default  EditCustomerComponent
+export default  EditItemComponent
