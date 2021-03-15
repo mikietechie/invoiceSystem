@@ -32,7 +32,7 @@ class EditCustomerComponent extends React.Component {
         document.querySelector('#editCustomerAddress').value = this.props.customer.address;
         
     }
-    componentDidMount() {
+    componentDidUpdate() {
         this.initialiseForm()
     }
 
