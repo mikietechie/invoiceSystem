@@ -55,7 +55,7 @@ class AddCustomerComponent extends React.Component {
         return(
             <div>
                 <div className="container">
-                    <form onSubmit={this.handleFormSubmit} id="addCustomerForm">
+                    <form onSubmit={this.handleFormSubmit}>
                         <legend>Add Customer</legend>
                         <div className="form-group row">
                             <label className="col-sm-6 col-form-label">Name</label>
