@@ -16,7 +16,7 @@ class EditCustomerComponent extends React.Component {
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
-    initialiseState= () => {
+    initialiseState = () => {
         this.setState({
             name: "",
             phone: "",

@@ -2,11 +2,21 @@ import React from 'react';
 import './all-customers-component.css';
 import CustomerComponent from '../customer-component/customer-component';
 import AddCustomerComponent from '../add-customer-component/add-customer-component';
+import EditCustomerComponent from '../add-customer-component/edit-customer-component';
 
 class AllCustomersComponent extends React.Component {
     constructor(props) {
         super(props);
         this.props = props;
+        this.state = {
+            customer: {}
+        }
+    }
+
+    changeSelectedCustomer = (customer) =>{
+        this.setState({
+            customer: customer
+        })
     }
 
     render() {
@@ -14,10 +24,12 @@ class AllCustomersComponent extends React.Component {
         if (this.props.customers.length === 0) {
             tbodyContent = <tr colSpan="5" className="py-2 text-center text-info"></tr>
         } else {
-            tbodyContent = this.props.customers.map(customer => (<CustomerComponent customer={customer} handleClick={()=>alert(customer.name)} handleChange={()=>this.props.handleChange()} key={customer.id}/>));   
+            tbodyContent = this.props.customers.map(
+                customer => (<CustomerComponent customer={customer} handleSelectForUpdate={()=>this.changeSelectedCustomer(customer)} handleChange={()=>this.props.handleChange()} key={customer.id}/>)
+            );   
         }
         return (
-            <div>
+            <React.Fragment>
                 <table className="table table-striped table-inverse table-responsive">
                     <thead className="thead-inverse">
                         <tr>
@@ -35,9 +47,15 @@ class AllCustomersComponent extends React.Component {
                 </table>
                 
                 <AddCustomerComponent handleChange={()=>this.props.handleChange()}/>
-                
 
-            </div>
+                <div className="modal fade" id="editCustomerModal" tabIndex="-1" role="dialog" aria-labelledby="Edit customer modal" aria-hidden="true">
+                    <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                            <EditCustomerComponent handleChange={()=>this.props.handleChange()} customer={this.state.customer}/>
+                        </div>
+                    </div>
+                </div>
+            </React.Fragment>
         );
     }
 }
