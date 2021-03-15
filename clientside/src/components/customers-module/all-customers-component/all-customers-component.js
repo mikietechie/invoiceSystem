@@ -9,7 +9,7 @@ class AllCustomersComponent extends React.Component {
         super(props);
         this.props = props;
         this.state = {
-            customer: {}
+            customer: {name:'',email:'',phone:'address'}
         }
     }
 
@@ -30,26 +30,42 @@ class AllCustomersComponent extends React.Component {
         }
         return (
             <React.Fragment>
-                <table className="table table-striped table-inverse table-responsive">
-                    <thead className="thead-inverse">
-                        <tr>
-                            <th scope="row">ID</th>
-                            <th><i className="fa fa-user-circle" aria-hidden="true"></i> Name</th>
-                            <th><i className="fa fa-phone" aria-hidden="true"></i> Phone</th>
-                            <th><i className="fa fa-envelope-o" aria-hidden="true"></i> Email</th>
-                            <th><i className="fa fa-map-o" aria-hidden="true"></i> Address</th>
-                            <th><i className="fa fa-crop" aria-hidden="true"></i> Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {tbodyContent}
-                        </tbody>
-                </table>
-                
-                <AddCustomerComponent handleChange={()=>this.props.handleChange()}/>
+                <div className="container-fluid">
+                    <h1 className="text-center text-success py-1">Customers</h1>
+                    <table className="table table-striped table-inverse table-responsive">
+                        <thead className="thead-inverse">
+                            <tr>
+                                <th scope="row">ID</th>
+                                <th><i className="fa fa-user-circle" aria-hidden="true"></i> Name</th>
+                                <th><i className="fa fa-phone" aria-hidden="true"></i> Phone</th>
+                                <th><i className="fa fa-envelope-o" aria-hidden="true"></i> Email</th>
+                                <th><i className="fa fa-map-marker" aria-hidden="true"></i> Address</th>
+                                <th>
+                                    <span className="hidden-sm-down"><i className="fa fa-crop" aria-hidden="true"></i> actions</span>
+                                    <button className="btn btn-outline-primary border-info rounded-circle ml-1" data-toggle="modal" data-target="#addCustomerModal">
+                                        <i className="fa fa-plus"></i>
+                                    </button>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {tbodyContent}
+                            </tbody>
+                    </table>    
+                </div>
+
+                <div className="modal fade" id="addCustomerModal" tabIndex="-1" role="dialog" aria-labelledby="Add customer modal" aria-hidden="true">
+                    <div className="modal-dialog" role="document">
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <div className="modal-content">
+                            <AddCustomerComponent handleChange={()=>this.props.handleChange()}/>
+                        </div>
+                    </div>
+                </div>
 
                 <div className="modal fade" id="editCustomerModal" tabIndex="-1" role="dialog" aria-labelledby="Edit customer modal" aria-hidden="true">
                     <div className="modal-dialog" role="document">
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <div className="modal-content">
                             <EditCustomerComponent handleChange={()=>this.props.handleChange()} customer={this.state.customer}/>
                         </div>

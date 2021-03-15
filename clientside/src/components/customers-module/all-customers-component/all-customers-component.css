@@ -1,0 +1,7 @@
+
+@media (max-width: 428px) {
+    
+    .hidden-sm-down {
+        display: none;
+    }
+}
