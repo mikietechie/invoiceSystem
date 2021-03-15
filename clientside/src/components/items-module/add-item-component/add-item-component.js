@@ -9,7 +9,7 @@ class AddItemComponent extends React.Component {
         this.props = props;
         this.state = {
             name: "",
-            price: 0,
+            price: "",
             unit: "",
             description: "",
         };
@@ -19,7 +19,7 @@ class AddItemComponent extends React.Component {
     initialiseState= () => {
         this.setState({
             name: "",
-            price: 0,
+            price: "",
             unit: "",
             description: "",
         })
@@ -33,10 +33,10 @@ class AddItemComponent extends React.Component {
     handleFormSubmit = (e) => {
         e.preventDefault();
         const formdData = new FormData()
-        formdData.append("name",this.state.name);
-        formdData.append("price",this.state.price);
-        formdData.append("unit",this.state.unit);
-        formdData.append("description",this.state.description);
+        formdData.append("name", this.state.name);
+        formdData.append("price", Number(this.state.price));
+        formdData.append("unit", this.state.unit);
+        formdData.append("description", this.state.description);
         fetch(`${Constants.serverSideURL}items/`, {
             method: "POST",
             body: formdData
@@ -66,7 +66,7 @@ class AddItemComponent extends React.Component {
                         <div className="form-group row">
                             <label className="col-sm-6 col-form-label">Price</label>
                             <div className="col-sm-6">
-                                <input type="number" name="email" className="form-control" placeholder="3.99" value={this.state.price} onChange={this.handleInputChange} />
+                                <input type="number" name="price" className="form-control" placeholder="3.99" value={this.state.price} onChange={this.handleInputChange} />
                             </div>
                         </div>
                         <div className="form-group row">
