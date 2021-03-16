@@ -5,6 +5,7 @@ import NavbarComponent from './components/navbar-component/navbar-component';
 import AllCustomersComponent from './components/customers-module/all-customers-component/all-customers-component';
 import AllItemsComponent from './components/items-module/all-items-component/all-items-component';
 import InvoiceComponent from './components/invoice-module/invoice-component/invoice-component';
+import AllInvoicesComponent from './components/invoice-module/all-invoices-component/all-invoices-component';
 
 import Constants from './services/constants';
 
@@ -16,6 +17,7 @@ class App extends React.Component {
 		this.state = {
 			customers: [],
 			items: [],
+			invoices: [],
 			view: ''
 		}
 	}
@@ -27,6 +29,7 @@ class App extends React.Component {
     componentDidMount() {
         this.fetchCustomers();
 		this.fetchItems();
+		this.fetchInvoices()
     }
 
     fetchCustomers = () => {
@@ -49,10 +52,20 @@ class App extends React.Component {
         })
     }
 
+    fetchInvoices = () => {
+        fetch(`${Constants.serverSideURL}invoices/`)
+        .then(response => response.json())
+        .then(invoices => {
+            this.setState(
+                {invoices: invoices}
+            )
+        })
+    }
+
 	render() {
 		const getView = () => {
 			if (this.state.view === 'invoices') {
-				return <h1>Invoices</h1>
+				return <AllInvoicesComponent invoices={this.state.invoices}></AllInvoicesComponent>
 			} else if (this.state.view === 'customers'){
 				return <AllCustomersComponent customers={this.state.customers} handleChange={()=>this.fetchCustomers()}/>
 			} else if (this.state.view === 'items'){

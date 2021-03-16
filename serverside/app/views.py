@@ -22,7 +22,7 @@ class InvoiceAPIView(APIView):
     
     def get(self, request):
         invoices = Invoice.objects.all()
-        return JsonResponse([invoice.miniSerialize() for invoice in invoices], status=200, safe=False)
+        return JsonResponse([invoice.serialize() for invoice in invoices], status=200, safe=False)
     
     def post(self, request):
         data = json.loads(request.body)
@@ -44,7 +44,7 @@ class InvoiceAPIViewDetail(APIView):
 
     def get(self,request,_id):
         invoice = self.getInvoice(_id)
-        return JsonResponse(invoice.fullSerialize(), status=200, safe=False)
+        return JsonResponse(invoice.serialize(), status=200, safe=False)
     #   Invoices cannot be updated or deleted since it would be a violation of data integrity!!!!
         
 

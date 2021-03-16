@@ -60,16 +60,8 @@ class Invoice(models.Model):
     class Meta:
         verbose_name = 'Invoice'
         verbose_name_plural = 'Invoices'
-    
-    def miniSerialize(self):
-        return {
-            "id": self.id,
-            "date": self.date,
-            "customer": self.customer.name,
-            "total": self.total,
-        }
 
-    def fullSerialize(self):
+    def serialize(self):
         return {
             "id": self.id,
             "date": self.date,

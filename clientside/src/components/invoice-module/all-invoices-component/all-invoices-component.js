@@ -1,9 +1,8 @@
 import React from 'react';
 import './all-invoices-component.css';
-import InvoiceComponent from '../invoice-component/invoice-component';
+//  import InvoiceComponent from '../invoice-component/invoice-component';
 import ViewInvoiceComponent from './view-invoice-component';
 import InvoiceComponent from './invoice-component';
-import Constants from '../../../services/constants';
 
 
 
@@ -12,16 +11,14 @@ class AllInvoicesComponent extends React.Component {
         super(props);
         this.props = props;
         this.state = {
-            invoice: {name:'',email:'',phone:'address'}
+            invoice: {}
         }
     }
-
-    changeSelectedInvoice = (invoice) =>{
-        fetch(`${Constants.serverSideURL}invoices/${invoice.id}/`)
-        .then(response => console.log(response.json()))
-        .then(invoice => this.setState({invoice: invoice}))
-        
+    componentDidMount() {
+        this.setState({invoice: this.props.invoices[0]})
     }
+
+    changeSelectedInvoice = (invoice) => this.setState({invoice: invoice})
 
     render() {
         let tbodyContent;
@@ -37,7 +34,7 @@ class AllInvoicesComponent extends React.Component {
             </tr>
         } else {
             tbodyContent = this.props.invoices.map(
-                invoice => (<InvoiceComponent invoice={invoice} handleSelectForView={()=>this.changeSelectedInvoice(invoice)} handleChange={()=>this.props.handleChange()} key={invoice.id}/>)
+                invoice => (<InvoiceComponent invoice={invoice} handleSelectForView={(invoice)=>this.changeSelectedInvoice(invoice)} handleChange={()=>this.props.handleChange()} key={invoice.id}/>)
             );   
         }
         return (
