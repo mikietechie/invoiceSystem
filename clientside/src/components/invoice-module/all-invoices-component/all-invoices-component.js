@@ -1,9 +1,5 @@
 import React from 'react';
 import './all-invoices-component.css';
-//  import InvoiceComponent from '../invoice-component/invoice-component';
-import ViewInvoiceComponent from './view-invoice-component';
-import InvoiceComponent from './invoice-component';
-
 
 
 class AllInvoicesComponent extends React.Component {
@@ -13,9 +9,6 @@ class AllInvoicesComponent extends React.Component {
         this.state = {
             invoice: {}
         }
-    }
-    componentDidMount() {
-        this.setState({invoice: this.props.invoices[0]})
     }
 
     changeSelectedInvoice = (invoice) => this.setState({invoice: invoice})
@@ -34,8 +27,84 @@ class AllInvoicesComponent extends React.Component {
             </tr>
         } else {
             tbodyContent = this.props.invoices.map(
-                invoice => (<InvoiceComponent invoice={invoice} handleSelectForView={(invoice)=>this.changeSelectedInvoice(invoice)} handleChange={()=>this.props.handleChange()} key={invoice.id}/>)
+                invoice => (<tr key={invoice.id}>
+                    <th scope="row">{invoice.id}</th>
+                    <td>{invoice.customer.name}</td>
+                    <td>{invoice.date}</td>
+                    <td>{invoice.total}</td>
+                    <td>
+                        <button type="button" className="btn btn-outline-primary rounded" onClick={()=>this.changeSelectedInvoice(invoice)} data-toggle="modal" data-target="#viewInvoiceModal">
+                            <i className="fa fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </td>
+                </tr>)
             );   
+        }
+        let modalContent;
+        try {
+            modalContent = (
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title text-center">Invoice <i className="fa fa-hashtag" aria-hidden="true"></i>{this.state.invoice.id} Detail</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <ul className="list-group">
+                                <div className="text-left"></div>
+                            </ul>
+                            <div className="container-fluid">
+                                <table className="table">
+                                    <thead>
+                                        <th>item</th>
+                                        <th><i className="fa fa-usd" aria-hidden="true"></i>Price</th>
+                                        <th><i className="fa fa-times" aria-hidden="true"></i>Quantity</th>
+                                        <th><i className="fa fa-usd" aria-hidden="true"></i>total</th>
+                                    </thead>
+                                    <tbody>
+                                        {this.state.invoice.invoiceLine.map(
+                                        invoiceLine => <tr key={invoiceLine.id} className="">
+                                            <td>{invoiceLine.item.name}</td>
+                                            <td>{invoiceLine.item.price}</td>
+                                            <td>{invoiceLine.quantity}</td>
+                                            <td>{invoiceLine.total}</td>
+                                        </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <ul className="list-group">
+                                <li className="list-group-item d-inline-flex justify-content-between">
+                                    <span className="text-left">total </span>
+                                    <span>
+                                        <i className="fa fa-usd" aria-hidden="true"></i> {this.state.invoice.total}
+                                    </span>
+                                </li>
+                                <li className="list-group-item d-inline-flex justify-content-between">
+                                    <span className="text-left">customer </span>
+                                    <span>
+                                        <i className="fa fa-user" aria-hidden="true"></i> {this.state.invoice.customer.name}
+                                    </span>
+                                </li>
+                                <li className="list-group-item d-inline-flex justify-content-between">
+                                    <span className="text-left">date </span>
+                                    <span>
+                                        <i className="fa fa-calendar" aria-hidden="true"></i> {this.state.invoice.date}
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>)
+        } catch {
+            modalContent = (
+                <div className="w-25 m-auto p-5 my-5 border border-primary fa fa-spinner"></div>
+            )
         }
         return (
             <React.Fragment>
@@ -55,9 +124,8 @@ class AllInvoicesComponent extends React.Component {
                             </tbody>
                     </table>
                 </div>
-
-                <div className="modal fade" id="editInvoiceModal" tabIndex="-1" role="dialog" aria-labelledby="Edit invoice modal" aria-hidden="true">
-                    <ViewInvoiceComponent invoice={this.state.invoice}></ViewInvoiceComponent>
+                <div className="modal fade" id="viewInvoiceModal" tabIndex="-1" role="dialog" aria-labelledby="View Invoice Modal" aria-hidden="true">
+                    {modalContent}
                 </div>
             </React.Fragment>
         );
