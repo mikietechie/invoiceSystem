@@ -55,21 +55,24 @@ class AllInvoicesComponent extends React.Component {
                             <ul className="list-group">
                                 <div className="text-left"></div>
                             </ul>
+                        
                             <div className="container-fluid">
                                 <table className="table">
                                     <thead>
-                                        <th>item</th>
-                                        <th><i className="fa fa-usd" aria-hidden="true"></i>Price</th>
-                                        <th><i className="fa fa-times" aria-hidden="true"></i>Quantity</th>
-                                        <th><i className="fa fa-usd" aria-hidden="true"></i>total</th>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                         {this.state.invoice.invoiceLine.map(
                                         invoiceLine => <tr key={invoiceLine.id} className="">
                                             <td>{invoiceLine.item.name}</td>
-                                            <td>{invoiceLine.item.price}</td>
-                                            <td>{invoiceLine.quantity}</td>
-                                            <td>{invoiceLine.total}</td>
+                                            <td><i className="fa fa-usd" aria-hidden="true"></i> {invoiceLine.item.price}</td>
+                                            <td><i className="fa fa-times" aria-hidden="true"></i> {invoiceLine.quantity}</td>
+                                            <td><i className="fa fa-usd" aria-hidden="true"></i> {invoiceLine.total}</td>
                                         </tr>
                                         )}
                                     </tbody>
@@ -77,21 +80,21 @@ class AllInvoicesComponent extends React.Component {
                             </div>
                             <ul className="list-group">
                                 <li className="list-group-item d-inline-flex justify-content-between">
-                                    <span className="text-left">total </span>
+                                    <span className="text-left">Total <i className="fa fa-calculator" aria-hidden="true"></i></span>
                                     <span>
-                                        <i className="fa fa-usd" aria-hidden="true"></i> {this.state.invoice.total}
+                                    <i className="fa fa-usd" aria-hidden="true"></i> {this.state.invoice.total}
                                     </span>
                                 </li>
                                 <li className="list-group-item d-inline-flex justify-content-between">
-                                    <span className="text-left">customer </span>
+                                    <span className="text-left">Customer <i className="fa fa-user" aria-hidden="true"></i></span>
                                     <span>
-                                        <i className="fa fa-user" aria-hidden="true"></i> {this.state.invoice.customer.name}
+                                        {this.state.invoice.customer.name}
                                     </span>
                                 </li>
                                 <li className="list-group-item d-inline-flex justify-content-between">
-                                    <span className="text-left">date </span>
+                                    <span className="text-left">Date <i className="fa fa-calendar" aria-hidden="true"></i></span>
                                     <span>
-                                        <i className="fa fa-calendar" aria-hidden="true"></i> {this.state.invoice.date}
+                                        {this.state.invoice.date}
                                     </span>
                                 </li>
                             </ul>
