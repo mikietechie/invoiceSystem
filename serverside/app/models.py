@@ -18,6 +18,7 @@ class Customer(models.Model):
     
     def serialize(self):
         return {
+            "id": self.id,
             "name": self.name,
             "email": self.email,
             "phone": self.phone,
@@ -37,11 +38,13 @@ class Item(models.Model):
 
     def __str__(self):
         return f"{self.name} @{self.price}/{self.unit}"
+
     def __repr__(self):
         return f"{self.name}"
     
     def serialize(self):
         return {
+            "id": self.id,
             "name": self.name,
             "description": self.description,
             "price": self.price,
@@ -57,23 +60,25 @@ class Invoice(models.Model):
     class Meta:
         verbose_name = 'Invoice'
         verbose_name_plural = 'Invoices'
-    
+
     def serialize(self):
         return {
-            "date": self.date.strftime("c"),
+            "id": self.id,
+            "date": self.date,
             "customer": self.customer.serialize(),
             "total": self.total,
-            "invoiceLine": [invoice_line.serialize() for invoice_line in self.invoice_lines]
+            "invoiceLine": [invoice_line.serialize() for invoice_line in self.invoice_lines.all()]
         }
+    
+    def __str__(self):
+        return f"{self.id} by {self.customer.name}"
 
 
 class InvoiceLine(models.Model):
     invoice = models.ForeignKey("Invoice", on_delete=models.CASCADE, related_name="invoice_lines")
     item = models.ForeignKey("Item", on_delete=models.CASCADE, related_name="item_invoice_lines")
     quantity = models.PositiveIntegerField()
-    @property
-    def total(self):
-        return self.item.price*self.quantity
+    amount = models.FloatField(default=0)
 
     class Meta:
         verbose_name = 'InvoiceLine'
@@ -81,14 +86,9 @@ class InvoiceLine(models.Model):
 
     def serialize(self):
         return {
-            "invoice_id": self.invoice.id,
+            "invoiceID": self.invoice.id,
+            "id": self.id,
             "item": self.item.serialize(),
             "quantity": self.quantity,
-            "total": self.total()
+            "total": self.amount
         }
-
-
-
-
-
-        

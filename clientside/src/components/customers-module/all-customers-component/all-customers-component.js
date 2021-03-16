@@ -22,7 +22,15 @@ class AllCustomersComponent extends React.Component {
     render() {
         let tbodyContent;
         if (this.props.customers.length === 0) {
-            tbodyContent = <tr colSpan="5" className="py-2 text-center text-info"></tr>
+            tbodyContent = <tr className="py-2 text-center text-info">
+                <th colSpan="6">
+                    <div>It seems like there are no customers yet 
+                        <button className="btn btn-link" data-toggle="modal" data-target="#addCustomerModal">
+                            click here
+                        </button> to add!!!
+                    </div>
+                </th>
+            </tr>
         } else {
             tbodyContent = this.props.customers.map(
                 customer => (<CustomerComponent customer={customer} handleSelectForUpdate={()=>this.changeSelectedCustomer(customer)} handleChange={()=>this.props.handleChange()} key={customer.id}/>)
@@ -35,15 +43,15 @@ class AllCustomersComponent extends React.Component {
                     <table className="table table-striped table-inverse table-responsive">
                         <thead className="thead-inverse">
                             <tr>
-                                <th scope="row">ID</th>
-                                <th><i className="fa fa-user-circle" aria-hidden="true"></i> Name</th>
+                                <th scope="row"><i className="fa fa-asterisk" aria-hidden="true"></i> ID</th>
+                                <th><i className="fa fa-id-card" aria-hidden="true"></i> Name</th>
                                 <th><i className="fa fa-phone" aria-hidden="true"></i> Phone</th>
                                 <th><i className="fa fa-envelope-o" aria-hidden="true"></i> Email</th>
                                 <th><i className="fa fa-map-marker" aria-hidden="true"></i> Address</th>
                                 <th>
                                     <span className="hidden-sm-down"><i className="fa fa-crop" aria-hidden="true"></i> actions</span>
                                     <button className="btn btn-outline-primary border-info rounded-circle ml-1" data-toggle="modal" data-target="#addCustomerModal">
-                                        <i className="fa fa-plus"></i>
+                                        <i className="fa fa-user-plus" aria-hidden="true"></i>
                                     </button>
                                 </th>
                             </tr>

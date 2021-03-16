@@ -1,0 +1,9 @@
+legend {
+    border: 1px 0px;
+    padding: 16px;
+    text-align: center;
+    font-size: 20px;
+    background-color: #fff;
+    opacity: 0.95;
+    width: 100%;
+}
