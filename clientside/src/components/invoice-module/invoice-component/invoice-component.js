@@ -48,7 +48,7 @@ class InvoiceComponent extends React.Component {
                     <th colSpan="4">It seems like there are no items yet !!!</th>
                 </tr>
         } else {
-            tbodyContent = this.props.items.map(
+            tbodyContent = this.state.invoiceItems.map(
                 item => (<ItemComponent item={item} key={item.id}/>)
             );   
         }
