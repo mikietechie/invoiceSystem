@@ -45,7 +45,7 @@ class InvoiceComponent extends React.Component {
         console.log(items);
         items.forEach(element => {
             if(element.id === item.id){
-                element.update(item.quantity*(-1));
+                element.update(item.quantity-1);
                 this.updateInvoiceItems(items)
                 return ;
             }
@@ -56,7 +56,7 @@ class InvoiceComponent extends React.Component {
         console.log(items);
         items.forEach(element => {
             if(element.id === item.id){
-                element.update(item.quantity*(-1));
+                element.update(item.quantity+1);
                 this.updateInvoiceItems(items)
                 return ;
             }
@@ -77,7 +77,20 @@ class InvoiceComponent extends React.Component {
         } else {
             tbodyContent = this.state.invoiceItems.map(
                 (item, index) => (
-                <ItemComponent item={item} key={index} handleDecrement={(item)=>this.handleDecrement(item)} handleIncrement={(item)=>this.handleIncrement(item)} handleDrop={(item)=>this.handleDrop(item)}/>
+                    <React.Fragment>
+                        <tr>
+                            <td>{item.name}</td>
+                            <td>{item.quantity}</td>
+                            <td>{item.price}</td>
+                            <td>
+                                <div className="btn-group" role="group" aria-label="">
+                                    <button className="btn btn-success border-info rounded-circle mr-1" onClick={()=>this.handleIncrement(item)}><i className="fa fa-plus"></i></button>
+                                    <button className="btn btn-primary border-info rounded-circle mr-1" onClick={()=>this.handleDecrement(item)}><i className="fa fa-minus"></i></button>
+                                    <button className="btn btn-danger border-info rounded-circle mr-1" onClick={()=>this.handleDrop(item)}><i className="fa fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </React.Fragment>
                 )
             );   
         }
