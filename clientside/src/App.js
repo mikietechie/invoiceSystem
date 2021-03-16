@@ -4,6 +4,8 @@ import './App.css';
 import NavbarComponent from './components/navbar-component/navbar-component';
 import AllCustomersComponent from './components/customers-module/all-customers-component/all-customers-component';
 import AllItemsComponent from './components/items-module/all-items-component/all-items-component';
+import InvoiceComponent from './components/invoice-module/invoice-component/invoice-component';
+
 import Constants from './services/constants';
 
 
@@ -56,7 +58,7 @@ class App extends React.Component {
 			} else if (this.state.view === 'items'){
 				return <AllItemsComponent items={this.state.items} handleChange={()=>this.fetchItems()}/>
 			}else{
-				return <h1>sales</h1>
+				return <InvoiceComponent items={this.state.items} customers={this.state.customers} />
 			}
 		}
 		return(

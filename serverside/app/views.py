@@ -1,5 +1,5 @@
 from .models import Customer, Invoice, InvoiceLine, Item
-from . serializers import CustomerSerializer, InvoiceSerializer, InvoiceLineSerializer, ItemSerializer
+from . serializers import CustomerSerializer, InvoiceSerializer, InvoiceLineSerializer, ItemSerializer, serializeInvoice
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -11,10 +11,42 @@ import json
 from django.http import JsonResponse
 
 
+
 def indexView(request):
     return render(request, "app/index.html", {})
+        
 
-# Create your views here.
+class InvoiceAPIView(APIView):
+    def __init__(self, *args):
+        super(InvoiceAPIView, self).__init__(*args)
+    
+    def get(self, request):
+        invoices = Invoice.objects.all()
+        return JsonResponse([serializeInvoice(invoice.id) for invoice in invoices], safe=False)
+    
+    def post(self, request):
+        data = json.loads(request.body)
+        invoice = Invoice.objects.create(customer=data['customer'].id, total=data['total'])
+        invoice.save()
+        InvoiceLine.objects.bulk_create(
+            [InvoiceLine(invoice=invoice, item=item.id, quantity=item.quantity, amount=(item.price*item.quantity)) for item in data.items]
+        )
+        return JsonResponse(invoice.serialize(), status=201)
+
+
+class InvoiceAPIViewDetail(APIView):
+    def getInvoice(self,_id):
+        try:
+            invoice = Invoice.objects.get(pk=_id)
+            return invoice
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def get(self,request,_id):
+        invoice = self.getInvoice(_id)
+        return JsonResponse(invoice.serialize(), status=200)
+        
+
 class CustomerAPIView(APIView):
     def __init__(self, *args):
         super(CustomerAPIView, self).__init__(*args)

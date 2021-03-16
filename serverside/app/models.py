@@ -59,21 +59,23 @@ class Invoice(models.Model):
         verbose_name_plural = 'Invoices'
     
     def serialize(self):
+        print(self.invoice_lines)
         return {
             "date": self.date.strftime("c"),
             "customer": self.customer.serialize(),
             "total": self.total,
             "invoiceLine": [invoice_line.serialize() for invoice_line in self.invoice_lines]
         }
+    
+    def __str__(self):
+        return f"{self.id}"
 
 
 class InvoiceLine(models.Model):
     invoice = models.ForeignKey("Invoice", on_delete=models.CASCADE, related_name="invoice_lines")
     item = models.ForeignKey("Item", on_delete=models.CASCADE, related_name="item_invoice_lines")
     quantity = models.PositiveIntegerField()
-    @property
-    def total(self):
-        return self.item.price*self.quantity
+    amount = models.FloatField(default=0)
 
     class Meta:
         verbose_name = 'InvoiceLine'
@@ -81,14 +83,8 @@ class InvoiceLine(models.Model):
 
     def serialize(self):
         return {
-            "invoice_id": self.invoice.id,
+            "invoiceID": self.invoice.id,
             "item": self.item.serialize(),
             "quantity": self.quantity,
-            "total": self.total()
+            "total": amount
         }
-
-
-
-
-
-        
