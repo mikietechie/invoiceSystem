@@ -40,7 +40,34 @@ class InvoiceComponent extends React.Component {
         }
         this.setState({total: total})
     }
-
+    handleDecrement = (item) => {
+        let items = this.state.invoiceItems.copyWithin();
+        console.log(items);
+        items.forEach(element => {
+            if(element.id === item.id){
+                element.update(item.quantity*(-1));
+                this.updateInvoiceItems(items)
+                return ;
+            }
+        });
+    }
+    handleIncrement = (item) => {
+        let items = this.state.invoiceItems.copyWithin();
+        console.log(items);
+        items.forEach(element => {
+            if(element.id === item.id){
+                element.update(item.quantity*(-1));
+                this.updateInvoiceItems(items)
+                return ;
+            }
+        });
+    }
+    
+    handleDrop = (item) => {
+        let items = this.state.invoiceItems.copyWithin();
+        this.updateInvoiceItems(items.filter((itemElement)=>itemElement.id !== item.id))
+    }
+    
     render() {
         let tbodyContent;
         if (this.state.invoiceItems.length === 0) {
@@ -49,7 +76,9 @@ class InvoiceComponent extends React.Component {
                 </tr>
         } else {
             tbodyContent = this.state.invoiceItems.map(
-                item => (<ItemComponent item={item} key={item.id}/>)
+                (item, index) => (
+                <ItemComponent item={item} key={index} handleDecrement={(item)=>this.handleDecrement(item)} handleIncrement={(item)=>this.handleIncrement(item)} handleDrop={(item)=>this.handleDrop(item)}/>
+                )
             );   
         }
         return (
