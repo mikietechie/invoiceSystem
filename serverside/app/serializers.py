@@ -24,15 +24,3 @@ class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
         fields = "__all__"
-
-
-
-def serializeInvoice(invoiceID=None,invoice=None):
-    invoice = Invoice.objects.get(pk=invoiceID)
-    serializedInvoice = invoice.serialize()
-    try:
-        serializedInvoice['invoiceLine'] = [invoiceLine.serialize() for invoiceLine in  invoice.invoice_lines]
-    except:
-        serializedInvoice['invoiceLine'] = []
-    
-    return serializedInvoice
