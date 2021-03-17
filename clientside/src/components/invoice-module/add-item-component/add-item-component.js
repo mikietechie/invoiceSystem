@@ -1,82 +1,100 @@
 import React from 'react';
 import Item from './item';
 
-class addItemComponent extends React.Component {
+class AddItemComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            itemID:0,
-            itemName: '',
-            itemPrice: 0,
+            item: Item,
+            itemKey: '',
             quantity: 0,
-            price: 0
+            total: 0
         };
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
-    componentDidMount() {
-        this.setState({
-            price: this.state.itemPrice*this.state.quantity
-        })
-    }
     initialiseState= () => {
         this.setState({
-            itemID:0,
-            itemName: '',
-            itemPrice: 0,
+            item: {},
+            itemKey: '',
             quantity: 0,
-            price: 0.0
+            total: 0
         })
     }
-    updatePrice = () => {this.setState({price: this.state.itemPrice*this.state.quantity})}
     handleInputChange = (event) => {
         const {name, value} = event.target
-        this.setState({[name]: Number(value).toFixed()})
+        this.setState({[name]: value})
         this.updatePrice();
     }
     handleFormSubmit = (e) => {
         e.preventDefault();
-        const item = new Item({id: this.state.itemID, name:this.state.itemName, price:this.state.itemPrice}, this.state.quantity);
-        alert(this.state.itemName)
-        this.props.handleUpdateInvoiceItems(item);
-        this.initialiseState();
+        if (this.state.itemKey === '' || this.state.quantity < 1) {
+            alert("Invalid data!")
+            return false;
+        } else {
+            let item;
+            item = this.props.items.filter((element)=>element.key === this.state.itemKey)[0];
+            this.props.handleUpdateInvoiceItems(item);
+            this.initialiseState();
+        }
         return false;
     }
-    handleSelectOrClick = (item) => {
-        this.setState({
-            id: item.id, name: item.name, price: item.price
-        })
-        this.updatePrice();
+    componentDidUpdate() {
+        try{
+            let item;
+            item = this.props.items.filter((element)=>element.key === this.state.itemKey)[0];
+            this.setState({item: item, total: item.price*this.state.quantity})
+        } catch {}
     }
 
     render() {
+        let content;
+        try {
+            content = (
+                <ul className="list-group">
+                    <li className="list-group-item d-inline-flex justify-content-between">
+                        <span className="text-center">
+                            {this.state.item.name}
+                        </span>
+                        <span className="text-center">
+                            @ <i className="fa fa-usd" aria-hidden="true"></i>{this.state.item.price}
+                        </span>
+                        <span className="text-center">
+                            <i className="fa fa-times" aria-hidden="true"></i>{this.state.item.name}
+                        </span>
+                        <span className="text-center">
+                            <i className="fa fa-calculator" aria-hidden="true"></i>{this.state.total}
+                        </span>
+                    </li>
+                </ul>
+            )
+        } catch {
+            content = '';
+        }
         return (
             <React.Fragment>
-                <form className="form-inline" onSubmit={this.handleFormSubmit}>
-                    <div className="dropdown open">
-                        <button className="btn btn-secondary dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Item
-                        </button>
-                        <div className="dropdown-menu" aria-labelledby="triggerId">
-                            {this.props.items.map(itemElement => (<span className="dropdown-item" onClick={()=>this.handleSelectOrClick(itemElement)} key={itemElement.id}>{itemElement.name}</span>))}
-                        </div>
-                    </div>
-                    {this.state.itemName}
-
-                    <label className="sr-only">Quantity</label>
-                    <div className="input-group mb-2 mr-sm-2">
-                        <div className="input-group-prepend">
-                            <div className="input-group-text">#</div>
-                        </div>
-                        <input type="number" className="form-control" name="quantity" placeholder="quantity"  value={this.state.quantity} onChange={this.handleInputChange}/>
-                    </div>
-                    <button type="submit" className="btn btn-primary mb-2"><i className="fa fa-plus-circle" aria-hidden="true"></i> Add</button>
+                <form onSubmit={this.handleFormSubmit}>
+                    <fieldset>
+                        <legend>Item</legend>
+                        <select name="itemKey" className="form-control" value={this.state.itemKey} onChange={this.handleInputChange}>
+                            {this.props.items.map((item) => (
+                                <option value={item.key}>
+                                    {item.name} 
+                                    @ <i className="fa fa-usd" aria-hidden="true"></i>{item.price} / {item.unit}
+                                </option>
+                            ))}
+                        </select>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Quantity</legend>
+                        <input type="number" name="quantity" className="form-control" value={this.state.quantity} onChange={this.handleInputChange} min="1"></input>
+                    </fieldset>
+                    <button type="submit" className="btn btn-outline-success">
+                        <i className="fa fa-plus" aria-hidden="true"></i> Add
+                    </button>
                 </form>
-                <label className="">Name {this.state.itemName}</label>
-                <br />
-                <label className="">Quantity {this.state.quantity}</label>
-                <br />
-                <label className="">Price {this.state.price}</label>
+                <br/>
+                {content}
             </React.Fragment>
         );
     }

@@ -29,7 +29,7 @@ class InvoiceAPIView(APIView):
         invoice = Invoice.objects.create(customer=data['customer'].id, total=data['total'])
         invoice.save()
         InvoiceLine.objects.bulk_create(
-            [InvoiceLine(invoice=invoice, item=item.id, quantity=item.quantity, amount=(item.price*item.quantity)) for item in data.items]
+            [InvoiceLine(invoice=invoice, item=item.id, quantity=item.quantity, amount=(item.price*item.quantity)) for item in data.invoiceItems]
         )
         return JsonResponse(invoice.serialize(), status=201)
 

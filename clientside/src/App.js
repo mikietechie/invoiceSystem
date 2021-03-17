@@ -72,7 +72,7 @@ class App extends React.Component {
 			} else if (this.state.view === 'items'){
 				return <AllItemsComponent items={this.state.items} handleChange={()=>this.fetchItems()}/>
 			}else{
-				return <InvoiceComponent items={this.state.items} customers={this.state.customers} />
+				return <InvoiceComponent items={this.state.items} customers={this.state.customers} handleChange={()=>this.fetchInvoices()}/>
 			}
 		}
 		return(
