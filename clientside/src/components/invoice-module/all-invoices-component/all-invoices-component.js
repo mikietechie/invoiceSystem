@@ -28,10 +28,10 @@ class AllInvoicesComponent extends React.Component {
         } else {
             tbodyContent = this.props.invoices.map(
                 invoice => (<tr key={invoice.id}>
-                    <th scope="row">{invoice.id}</th>
-                    <td>{invoice.customer.name}</td>
-                    <td>{invoice.date}</td>
-                    <td>{invoice.total}</td>
+                    <th scope="row" className="text-left">{invoice.id}</th>
+                    <td className="text-left">{invoice.customer.name}</td>
+                    <td className="text-left">{invoice.date}</td>
+                    <td className="text-left">{invoice.total}</td>
                     <td>
                         <button type="button" className="btn btn-outline-primary rounded" onClick={()=>this.changeSelectedInvoice(invoice)} data-toggle="modal" data-target="#viewInvoiceModal">
                             <i className="fa fa-eye" aria-hidden="true"></i>
@@ -60,19 +60,19 @@ class AllInvoicesComponent extends React.Component {
                                 <table className="table">
                                     <thead>
                                         <tr>
-                                            <th>Item</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Total</th>
+                                            <th className="text-left">Item</th>
+                                            <th className="text-left">Price</th>
+                                            <th className="text-left">Quantity</th>
+                                            <th className="text-left">Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {this.state.invoice.invoiceLine.map(
                                         invoiceLine => <tr key={invoiceLine.id} className="">
-                                            <td>{invoiceLine.item.name}</td>
-                                            <td><i className="fa fa-usd" aria-hidden="true"></i> {invoiceLine.item.price}</td>
-                                            <td><i className="fa fa-times" aria-hidden="true"></i> {invoiceLine.quantity}</td>
-                                            <td><i className="fa fa-usd" aria-hidden="true"></i> {invoiceLine.total}</td>
+                                            <td className="text-left">{invoiceLine.item.name}</td>
+                                            <td className="text-left"><i className="fa fa-usd" aria-hidden="true"></i> {invoiceLine.item.price}</td>
+                                            <td className="text-left"><i className="fa fa-times" aria-hidden="true"></i> {invoiceLine.quantity}</td>
+                                            <td className="text-left"><i className="fa fa-usd" aria-hidden="true"></i> {invoiceLine.total}</td>
                                         </tr>
                                         )}
                                     </tbody>
@@ -116,10 +116,11 @@ class AllInvoicesComponent extends React.Component {
                     <table className="table table-striped table-inverse table-responsive">
                         <thead className="thead-inverse">
                             <tr>
-                                <th scope="row"><i className="fa fa-asterisk" aria-hidden="true"></i> ID</th>
-                                <th><i className="fa fa-id-card" aria-hidden="true"></i> Customer</th>
-                                <th><i className="fa fa-calender" aria-hidden="true"></i> Date</th>
-                                <th><i className="fa fa-usd" aria-hidden="true"></i> Total</th>
+                                <th scope="row" className="text-left"><i className="fa fa-asterisk" aria-hidden="true"></i> ID</th>
+                                <th className="text-left"><i className="fa fa-id-card" aria-hidden="true"></i> Customer</th>
+                                <th className="text-left"><i className="fa fa-calender" aria-hidden="true"></i> Date</th>
+                                <th className="text-left"><i className="fa fa-usd" aria-hidden="true"></i> Total</th>
+                                <th className="text-left"><i className="fa fa-eye" aria-hidden="true"></i> View</th>
                             </tr>
                             </thead>
                             <tbody>
