@@ -15,8 +15,8 @@ class InvoiceComponent extends React.Component {
                     <td>{this.props.invoice.date}</td>
                     <td>{this.props.invoice.total}</td>
                     <td>
-                        <button type="button" class="btn btn-outline-primary rounded" onClick={()=>this.props.handleSelectForView(this.props.invoice)}>
-                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        <button type="button" className="btn btn-outline-primary rounded" onClick={()=>this.props.handleSelectForView(this.props.invoice)}>
+                            <i className="fa fa-eye" aria-hidden="true"></i>
                         </button>
                     </td>
                 </tr>

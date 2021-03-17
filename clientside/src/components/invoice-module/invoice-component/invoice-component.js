@@ -2,10 +2,12 @@ import React from 'react';
 import './invoice-component.css';
 import AddItemComponent from '../add-item-component/add-item-component';
 import Constants from '../../../services/constants';
-//  import ItemComponent from '../add-item-component/item-component';
-//  import Item from '../../../interfaces/item';
+
 
 class InvoiceComponent extends React.Component {
+    /*
+    Please note that the logic for adding the invoice's customer property should be in its own component, however it is not because of time!
+    */
     constructor(props) {
         super(props);
         this.props = props;
