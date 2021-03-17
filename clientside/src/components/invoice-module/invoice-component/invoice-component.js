@@ -10,10 +10,20 @@ class InvoiceComponent extends React.Component {
         super(props);
         this.props = props;
         this.state = {
+            customerKey: '',
             customer: {},
             invoiceItems: [],
             total: 0
         };
+        
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+    handleInputChange = (event) => {
+        const {name, value} = event.target
+        this.setState({[name]: value})
+        let customer;
+        customer = this.props.customers.filter((element)=>element.key === this.state.customerKey)[0];
+        this.setState({customer: customer})
     }
     handleUpdateInvoiceItems = (item) => {
         let items = this.state.invoiceItems.copyWithin();
@@ -90,6 +100,12 @@ class InvoiceComponent extends React.Component {
             total: 0
         })
     }
+    handleChangeCustomer =() => {
+        try {
+            let customer = this.props.customers.filter((element)=> element.key === this.state.customerKey)[0]
+            this.setState({customer: customer})
+        } catch {}
+    }
     
     render() {
         let tbodyContent;
@@ -141,6 +157,17 @@ class InvoiceComponent extends React.Component {
                     <h1 className="text-center"> New Sale</h1>
                 </header>
                 <div className="container-fluid">
+                    <fieldset>
+                        <legend>customer</legend>
+                        <select name="customerKey" className="form-control" value={this.state.customerKey} onChange={this.handleInputChange}>
+                            {this.props.customers.map((customer) => (
+                                <option value={customer.key}>
+                                    {customer.name} <i className="fa fa-id-badge" aria-hidden="true"></i>
+                                    {customer.id}
+                                </option>
+                            ))}
+                        </select>
+                    </fieldset>
                     <AddItemComponent handleUpdateInvoiceItems={(item)=>this.handleUpdateInvoiceItems(item)} items={this.props.items} />
                     <div className="table-responsive">
                         <table className="table table-striped table-inverse table-responsive">
