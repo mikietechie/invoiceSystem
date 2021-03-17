@@ -23,7 +23,8 @@ class Customer(models.Model):
             "name": self.name,
             "email": self.email,
             "phone": self.phone,
-            "address": self.address
+            "address": self.address,
+            "key": f"{self.name} #{self.id}"
         }
 
 
@@ -49,7 +50,8 @@ class Item(models.Model):
             "name": self.name,
             "description": self.description,
             "price": self.price,
-            "unit": self.unit
+            "unit": self.unit,
+            "key": f"{self.name} #{self.id}"
         }
 
 
