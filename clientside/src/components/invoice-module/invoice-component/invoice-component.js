@@ -40,7 +40,34 @@ class InvoiceComponent extends React.Component {
         }
         this.setState({total: total})
     }
-
+    handleDecrement = (item) => {
+        let items = this.state.invoiceItems.copyWithin();
+        console.log(items);
+        items.forEach(element => {
+            if(element.id === item.id){
+                element.update(item.quantity-1);
+                this.updateInvoiceItems(items)
+                return ;
+            }
+        });
+    }
+    handleIncrement = (item) => {
+        let items = this.state.invoiceItems.copyWithin();
+        console.log(items);
+        items.forEach(element => {
+            if(element.id === item.id){
+                element.update(item.quantity+1);
+                this.updateInvoiceItems(items)
+                return ;
+            }
+        });
+    }
+    
+    handleDrop = (item) => {
+        let items = this.state.invoiceItems.copyWithin();
+        this.updateInvoiceItems(items.filter((itemElement)=>itemElement.id !== item.id))
+    }
+    
     render() {
         let tbodyContent;
         if (this.state.invoiceItems.length === 0) {
@@ -49,7 +76,22 @@ class InvoiceComponent extends React.Component {
                 </tr>
         } else {
             tbodyContent = this.state.invoiceItems.map(
-                item => (<ItemComponent item={item} key={item.id}/>)
+                (item, index) => (
+                    <React.Fragment>
+                        <tr>
+                            <td>{item.name}</td>
+                            <td>{item.quantity}</td>
+                            <td>{item.price}</td>
+                            <td>
+                                <div className="btn-group" role="group" aria-label="">
+                                    <button className="btn btn-success border-info rounded-circle mr-1" onClick={()=>this.handleIncrement(item)}><i className="fa fa-plus"></i></button>
+                                    <button className="btn btn-primary border-info rounded-circle mr-1" onClick={()=>this.handleDecrement(item)}><i className="fa fa-minus"></i></button>
+                                    <button className="btn btn-danger border-info rounded-circle mr-1" onClick={()=>this.handleDrop(item)}><i className="fa fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </React.Fragment>
+                )
             );   
         }
         return (
