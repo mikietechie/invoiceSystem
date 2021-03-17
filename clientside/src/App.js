@@ -8,6 +8,7 @@ import InvoiceComponent from './components/invoice-module/invoice-component/invo
 import AllInvoicesComponent from './components/invoice-module/all-invoices-component/all-invoices-component';
 
 import Constants from './services/constants';
+import Item from './interfaces/item';
 
 
 class App extends React.Component {
@@ -47,7 +48,7 @@ class App extends React.Component {
         .then(response => response.json())
         .then(items => {
             this.setState(
-                {items: items}
+                {items: items.map((item) => new Item(item))}
             )
         })
     }

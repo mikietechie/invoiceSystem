@@ -2,6 +2,7 @@ import React from 'react';
 import './invoice-component.css';
 import AddItemComponent from '../add-item-component/add-item-component';
 import ItemComponent from '../add-item-component/item-component';
+import Item from '../../../interfaces/item';
 
 class InvoiceComponent extends React.Component {
     constructor(props) {
