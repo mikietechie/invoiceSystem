@@ -2,12 +2,14 @@ from django.test import TestCase
 from .models import Item, Customer, Invoice, InvoiceLine
 
 
+#   Please not that no selenium webdriver testing was carried out because my machine i.e the developers machine was throwing an error saying that my google chrome webdriver dependancies were not installed
+
 class RoughTestCase(TestCase):
     """
     Test case for mainly my django objects and their relations and functionality
 
     NB: Please not that for comparing equality of monetory values from calculations I have used assertAlmostEqual instead of assertEqual because Python the programming language in application 
-    like many other languages kinda has problems returning acurate to the last digit floating point values. (IYKYK)
+    like many other languages kinda has problems returning acurate to the last digit floating point values. (If you know you know)
     """
     def setUp(self):
         #   Setup dummy custmers
@@ -24,7 +26,7 @@ class RoughTestCase(TestCase):
         invoice_1 = Invoice(customer=Customer.objects.get(id=1),total=0)
         invoice_1.save()
         InvoiceLine.objects.create(invoice=invoice_1,item=Item.objects.get(id=1), quantity=2, amount=(Item.objects.get(id=1).price*2))
-        InvoiceLine.objects.create(invoice=invoice_1,item=Item.objects.get(id=4, quantity=1, amount=(Item.objects.get(id=4).price*1))
+        InvoiceLine.objects.create(invoice=invoice_1,item=Item.objects.get(id=4), quantity=1, amount=(Item.objects.get(id=4).price*1))
         InvoiceLine.objects.create(invoice=invoice_1,item=Item.objects.get(id=3), quantity=6, amount=(Item.objects.get(id=3).price*6))
         invoice_1.total = sum(invoiceLine.amount for invoiceLine in invoice_1.invoiceLines.all())
         invoice_1.save()
@@ -41,7 +43,7 @@ class RoughTestCase(TestCase):
         InvoiceLine.objects.create(invoice=invoice_3,item=Item.objects.get(id=5), quantity=12, amount=(Item.objects.get(id=5).price*12))
         InvoiceLine.objects.create(invoice=invoice_3,item=Item.objects.get(id=4), quantity=2, amount=(Item.objects.get(id=4).price*2))
         InvoiceLine.objects.create(invoice=invoice_3,item=Item.objects.get(id=1), quantity=2, amount=(Item.objects.get(id=1).price*2))
-        InvoiceLine.objects.create(invoice=invoice_3,item=Item.objects.get(id=4, quantity=1, amount=(Item.objects.get(id=4).price*1))
+        InvoiceLine.objects.create(invoice=invoice_3,item=Item.objects.get(id=4), quantity=1, amount=(Item.objects.get(id=4).price*1))
         InvoiceLine.objects.create(invoice=invoice_3,item=Item.objects.get(id=3), quantity=6, amount=(Item.objects.get(id=3).price*6))
         invoice_3.total = sum(invoiceLine.amount for invoiceLine in invoice_3.invoiceLines.all())
         invoice_3.save()
@@ -54,7 +56,7 @@ class RoughTestCase(TestCase):
     
     def test_customers_save(self):
         self.assertEqual(Customer.objects.count(),3)
-        self.assertEqual(Customer.objects.all()[-1].id, 1, msg="Customers are not in alphabetical order by name")
+        self.assertEqual(Customer.objects.all()[2].id, 1, msg="Customers are not in alphabetical order by name")
         self.assertEqual(Customer.objects.get(id=3).name, "Brian Mpofu", msg="Customer ids do not auto increment by one")
     
     def test_items_save(self):
@@ -69,7 +71,7 @@ class RoughTestCase(TestCase):
         invoice = Invoice.objects.get(id=3)
         total = 0
         for invoiceLine in invoice.invoiceLines.all():
-            total += invoiceLine.amount()
+            total += invoiceLine.amount
         self.assertAlmostEqual(invoice.total, total, delta=0.1, msg="Invoice total does not equal the sum totals of the invoice's lines")
         self.assertEqual(invoice.invoiceLines.all().count(), 5, msg="Invoice's invoice lines count does not match the number of invoice lines referencing it!!!")
     
