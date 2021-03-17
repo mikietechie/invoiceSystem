@@ -1,7 +1,6 @@
 from django.test import TestCase
 from .models import Item, Customer, Invoice, InvoiceLine
 
-
 #   Please not that no selenium webdriver testing was carried out because my machine i.e the developers machine was throwing an error saying that my google chrome webdriver dependancies were not installed
 
 class RoughTestCase(TestCase):
@@ -12,6 +11,7 @@ class RoughTestCase(TestCase):
     like many other languages kinda has problems returning acurate to the last digit floating point values. (If you know you know)
     """
     def setUp(self):
+        """Please do not blutantly add, edit, update or delete the following dummy objects as most of the test methods heavily rely on the state they are in i.e quantities and properties.s"""
         #   Setup dummy custmers
         Customer.objects.create(name="Mike Zinyoni", phone="+263784528370", email="mzinyoni7@outlook.com", address="Stand #11 Lorraine Drive, Bluffhill Harare Zimbabwe")
         Customer.objects.create(name="Josh Nyamulomo", phone="+26356839021", email="jnyamulomo@gmail.com", address="Stand #5 Lorraine Drive, Bluffhill Harare Zimbabwe")
