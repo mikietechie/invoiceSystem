@@ -8,6 +8,7 @@ class Customer(models.Model):
     address = models.TextField(max_length=256)
 
     class Meta:
+        ordering = ["name"]
         verbose_name = 'Customer'
         verbose_name_plural = 'Customers'
 
@@ -54,7 +55,7 @@ class Item(models.Model):
 
 class Invoice(models.Model):
     date = models.DateTimeField(auto_now_add=True)
-    customer = models.ForeignKey("Customer", on_delete=models.CASCADE, related_name="customer_invoices")
+    customer = models.ForeignKey("Customer", on_delete=models.CASCADE, related_name="invoices")
     total = models.FloatField()
 
     class Meta:
@@ -67,7 +68,7 @@ class Invoice(models.Model):
             "date": self.date,
             "customer": self.customer.serialize(),
             "total": self.total,
-            "invoiceLine": [invoice_line.serialize() for invoice_line in self.invoice_lines.all()]
+            "invoiceLine": [invoice_line.serialize() for invoice_line in self.invoiceLines.all()]
         }
     
     def __str__(self):
@@ -75,8 +76,8 @@ class Invoice(models.Model):
 
 
 class InvoiceLine(models.Model):
-    invoice = models.ForeignKey("Invoice", on_delete=models.CASCADE, related_name="invoice_lines")
-    item = models.ForeignKey("Item", on_delete=models.CASCADE, related_name="item_invoice_lines")
+    invoice = models.ForeignKey("Invoice", on_delete=models.CASCADE, related_name="invoiceLines")
+    item = models.ForeignKey("Item", on_delete=models.CASCADE, related_name="invoiceLines")
     quantity = models.PositiveIntegerField()
     amount = models.FloatField(default=0)
 
