@@ -79,7 +79,7 @@ class InvoiceComponent extends React.Component {
         this.updateInvoiceItems(items)
     }
     handleSubmitinvoice = () => {
-        data = {
+        let data = {
             customer: this.state.customer,
             invoiceItems: this.state.invoiceItems,
             total: this.state.total

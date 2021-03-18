@@ -1,5 +1,5 @@
 import React from 'react';
-import Item from './item';
+import Item from '../../../interfaces/item';
 
 class AddItemComponent extends React.Component {
     constructor(props) {
@@ -24,7 +24,6 @@ class AddItemComponent extends React.Component {
     handleInputChange = (event) => {
         const {name, value} = event.target
         this.setState({[name]: value})
-        this.updatePrice();
     }
     handleFormSubmit = (e) => {
         e.preventDefault();
@@ -99,4 +98,4 @@ class AddItemComponent extends React.Component {
         );
     }
 }
-export default addItemComponent;
+export default AddItemComponent;
