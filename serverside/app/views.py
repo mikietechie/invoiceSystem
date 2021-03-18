@@ -4,16 +4,20 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-#from django.db.models import Q
+
 from django.shortcuts import render
 
 import json
 from django.http import JsonResponse
 
-
-
+"""
+    Initially i wanted to use an ordinary django app with links to a bit of resct js scripts
+    but could not because i could not link to a babel.js file offline successfully hence I 
+    resorted to using th create-react-app cli tool for the frontend...
+"""
 def indexView(request):
     return render(request, "app/index.html", {})
+
         
 
 class InvoiceAPIView(APIView):
@@ -26,10 +30,10 @@ class InvoiceAPIView(APIView):
     
     def post(self, request):
         data = json.loads(request.body)
-        invoice = Invoice.objects.create(customer=data['customer'].id, total=data['total'])
+        invoice = Invoice.objects.create(customer=Customer.objects.get(pk=data['customer'].id), total=data['total'])
         invoice.save()
         InvoiceLine.objects.bulk_create(
-            [InvoiceLine(invoice=invoice, item=item.id, quantity=item.quantity, amount=(item.price*item.quantity)) for item in data.items]
+            [InvoiceLine(invoice=invoice, item=Item.objects.get(pk=item.id), quantity=item.quantity, amount=(item.price*item.quantity)) for item in data.invoiceItems]
         )
         return JsonResponse(invoice.serialize(), status=201)
 

@@ -1,28 +1,41 @@
 import React from 'react';
 import './invoice-component.css';
 import AddItemComponent from '../add-item-component/add-item-component';
-import ItemComponent from '../add-item-component/item-component';
+import Constants from '../../../services/constants';
+
 
 class InvoiceComponent extends React.Component {
+    /*
+    Please note that the logic for adding the invoice's customer property should be in its own component, however it is not because of time!
+    */
     constructor(props) {
         super(props);
         this.props = props;
         this.state = {
+            customerKey: '',
             customer: {},
             invoiceItems: [],
             total: 0
         };
+        
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+    handleInputChange = (event) => {
+        const {name, value} = event.target
+        this.setState({[name]: value})
+        let customer;
+        customer = this.props.customers.filter((element)=>element.key === this.state.customerKey)[0];
+        this.setState({customer: customer})
     }
     handleUpdateInvoiceItems = (item) => {
         let items = this.state.invoiceItems.copyWithin();
         console.log(items);
-        items.forEach(element => {
-            if(element.id === item.id){
-                element.update(item.quantity);
-                this.updateInvoiceItems(items)
-                return ;
+        for (let index = 0; index < items.length; index++) {
+            if (items[index].key === item.key) {
+                items[index].quantity = item.quantity;
+                return;
             }
-        });
+        }
         items.push(item)
         this.updateInvoiceItems(items)
     }
@@ -43,37 +56,83 @@ class InvoiceComponent extends React.Component {
     handleDecrement = (item) => {
         let items = this.state.invoiceItems.copyWithin();
         console.log(items);
-        items.forEach(element => {
-            if(element.id === item.id){
-                element.update(item.quantity-1);
-                this.updateInvoiceItems(items)
+        for (let index = 0; index < items.length; index++) {
+            if (items[index].id === item.id) {
+                items[index].update(item.quantity-1)
                 return ;
             }
-        });
+        }
     }
     handleIncrement = (item) => {
         let items = this.state.invoiceItems.copyWithin();
         console.log(items);
-        items.forEach(element => {
-            if(element.id === item.id){
-                element.update(item.quantity+1);
-                this.updateInvoiceItems(items)
+        for (let index = 0; index < items.length; index++) {
+            if (items[index].id === item.id) {
+                items[index].update(item.quantity+1)
                 return ;
             }
-        });
+        }
     }
     
     handleDrop = (item) => {
-        let items = this.state.invoiceItems.copyWithin();
-        this.updateInvoiceItems(items.filter((itemElement)=>itemElement.id !== item.id))
+        let items = this.state.invoiceItems.filter((itemElement)=>itemElement.id !== item.id);
+        this.updateInvoiceItems(items)
+    }
+    handleSubmitinvoice = () => {
+        data = {
+            customer: this.state.customer,
+            invoiceItems: this.state.invoiceItems,
+            total: this.state.total
+        }
+        fetch(`${Constants.serverSideURL}invoices/`, {
+            method: "POST",
+            body: data
+        })
+        .then(response => response.json())
+        .then((invoice ) => {
+            alert(`${invoice.customer.name} successfully purchased items worth ${invoice.total}`);
+            this.props.handleChange();
+            this.initialiseState();
+        })
+    }
+    initialiseState = () => {
+        this.setState({
+            customer: {},
+            invoiceItems: [],
+            total: 0
+        })
+    }
+    handleChangeCustomer =() => {
+        try {
+            let customer = this.props.customers.filter((element)=> element.key === this.state.customerKey)[0]
+            this.setState({customer: customer})
+        } catch {}
     }
     
     render() {
         let tbodyContent;
+        let submitInvoiceContent = '';
         if (this.state.invoiceItems.length === 0) {
-            tbodyContent = <tr className="py-2 text-center text-info">
-                    <th colSpan="4">It seems like there are no items yet !!!</th>
+            tbodyContent = (
+                <tr className="py-2 text-center text-info">
+                        <th colSpan="4">It seems like there are no items yet !!!</th>
                 </tr>
+            )
+            submitInvoiceContent = (
+                <div className="container-fluid d-inline-flex justify-content-between">
+                    <span className="mx-auto">
+                        <i className="fa fa-calculator" aria-hidden="true"></i>
+                        total: <i className="fa fa-usd" aria-hidden="true"></i>
+                        {this.state.total}
+                    </span>
+                    <span className="mx-auto">
+                        <button className="btn btn-outline-success">
+                            <i className="fa fa-send" aria-hidden="true"></i>
+                            Submit
+                        </button>
+                    </span>
+                </div>
+            )
         } else {
             tbodyContent = this.state.invoiceItems.map(
                 (item, index) => (
@@ -100,6 +159,17 @@ class InvoiceComponent extends React.Component {
                     <h1 className="text-center"> New Sale</h1>
                 </header>
                 <div className="container-fluid">
+                    <fieldset>
+                        <legend>customer</legend>
+                        <select name="customerKey" className="form-control" value={this.state.customerKey} onChange={this.handleInputChange}>
+                            {this.props.customers.map((customer) => (
+                                <option value={customer.key}>
+                                    {customer.name} <i className="fa fa-id-badge" aria-hidden="true"></i>
+                                    {customer.id}
+                                </option>
+                            ))}
+                        </select>
+                    </fieldset>
                     <AddItemComponent handleUpdateInvoiceItems={(item)=>this.handleUpdateInvoiceItems(item)} items={this.props.items} />
                     <div className="table-responsive">
                         <table className="table table-striped table-inverse table-responsive">
@@ -119,9 +189,8 @@ class InvoiceComponent extends React.Component {
                         </table>  
                     </div>
                 </div>
-                <div className="container-fluid py-2 text-right pr-5">
-                    <span>Total <b>{this.state.total}</b></span>
-                </div>
+                <hr />
+                {submitInvoiceContent}
             </React.Fragment>
         );
     }
