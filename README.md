@@ -4,5 +4,4 @@ NB please note that for the frontend i.e React app to successfully connect with 
 
 
 #	To: (Nakamura)
-Please pardon me i could not complete the front end thing by Monday the 15th, can you please extend my grace period to Wednesday.
-.................... 
+I think everything is now in order ....
